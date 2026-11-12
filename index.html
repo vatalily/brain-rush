@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Rush</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20261112-1">
+</head>
+<body>
+  <div class="doodle doodle-a">✦</div>
+  <div class="doodle doodle-b">⌁</div>
+  <div class="doodle doodle-c">☼</div>
+
+  <main id="app">
+    <section id="menu-screen" class="screen active">
+      <div class="menu-card paper-card">
+        <div class="eyebrow">A curiously clever board game</div>
+        <h1 id="editable-title" contenteditable="true" spellcheck="false" aria-label="Editable game title">Brain
+Rush</h1>
+        <div class="mascot-row character-preview" aria-hidden="true">
+          <img src="assets/character-1.png" alt="">
+          <img src="assets/character-2-boba-complete.png" alt="">
+          <img src="assets/character-3.png" alt="">
+          <img src="assets/character-4.png" alt="">
+        </div>
+        <button id="play-btn" class="chunky primary">PLAY!</button>
+        <button id="how-btn" class="chunky secondary">HOW TO PLAY</button>
+      </div>
+    </section>
+
+    <section id="setup-screen" class="screen">
+      <div class="paper-card setup-card">
+        <button class="back-btn" data-target="menu-screen">←</button>
+        <div class="eyebrow">Gather your curious crew</div>
+        <h2>Add players</h2>
+        <p class="setup-help">Build a party of 2–4 players. Add a slot, then choose HUMAN or AI in that player's row.</p>
+        <p class="portrait-help">Tap any character portrait to choose who plays that slot.</p>
+        <div id="setup-players" class="player-setup-list"></div>
+        <div class="add-player-actions">
+          <button id="add-player-btn" class="chunky secondary">ADD PLAYER</button>
+        </div>
+        <p id="setup-error" class="setup-error" role="status"></p>
+        <button id="start-btn" class="chunky primary">START GAME</button>
+      </div>
+    </section>
+
+    <section id="game-screen" class="screen game-screen">
+      <header class="game-header">
+        <div class="turn-status-card paper-card">
+          <span class="small-label">CURRENT TURN</span>
+          <strong id="turn-label">Your turn</strong>
+        </div>
+        <div class="game-title-card paper-card" id="game-title-small">Brain Rush</div>
+        <div class="header-actions paper-card">
+          <button id="sound-btn" class="icon-button" title="Mute sound effects" aria-pressed="true">🔊</button>
+          <button id="pause-btn" class="icon-button" title="Pause game" aria-label="Pause game">Ⅱ</button>
+          <button id="rules-btn" class="icon-button" title="How to play" aria-label="How to play">?</button>
+        </div>
+      </header>
+
+      <div class="game-layout">
+        <aside class="players-panel paper-card">
+          <h3>Thinkers</h3>
+          <div id="player-list"></div>
+        </aside>
+
+        <section class="board-wrap paper-card" tabindex="0" aria-label="Numbered game board. On small screens, scroll sideways to see all tiles.">
+          <div id="board" class="board" aria-label="Game board. Follow the numbers from 1 to 60: right across the first row, then left across the next, moving up at each turn."></div>
+          <svg id="routes-overlay" class="routes-overlay" aria-hidden="true"></svg>
+          <div id="flying-dice" class="flying-dice" aria-hidden="true">
+            <div class="paper-die"></div><div class="paper-die"></div>
+          </div>
+        </section>
+
+        <aside class="turn-panel paper-card">
+          <div id="dice" class="dice-area">
+            <div class="die" id="die-one">?</div>
+            <div class="plus">+</div>
+            <div class="die" id="die-two">?</div>
+          </div>
+          <div id="roll-total" class="roll-total">Ready?</div>
+          <button id="roll-btn" class="chunky primary">ROLL DICE</button>
+          <div id="event-log" class="event-log">Reach the finish before the other thinkers!</div>
+          <div id="skill-tray" class="skill-tray"></div>
+        </aside>
+
+        <aside class="skill-guide paper-card" aria-label="Skill guide">
+          <h3>Skill scribbles</h3>
+          <div><img src="assets/shield.png" alt=""><p><strong>Shield · Auto</strong><span>Auto-pockets. Blocks one bad effect—even slides and skills.</span></p></div>
+          <div><img src="assets/switch.png" alt=""><p><strong>Switch</strong><span>Trade places with a rival.</span></p></div>
+          <div><img src="assets/double-roll.png" alt=""><p><strong>Double Roll</strong><span>Roll both dice again.</span></p></div>
+          <div><img src="assets/push-back.png" alt=""><p><strong>Push Back</strong><span>Send a rival back 2 tiles.</span></p></div>
+          <div><img src="assets/rainbow.png" alt=""><p><strong>Rainbow</strong><span>Choose the question category now.</span></p></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Game dialog">
+    <div id="modal-card" class="modal-card paper-card" tabindex="-1"></div>
+  </div>
+
+  <template id="question-template">
+    <div class="question-modal">
+      <div class="question-top">
+        <span class="category-pill"></span>
+        <div class="timer"><span>15</span></div>
+      </div>
+      <div class="difficulty-tag"></div>
+      <h2 class="question-text"></h2>
+      <div class="answers"></div>
+    </div>
+  </template>
+
+  <script src="questions-data.js?v=20261024"></script>
+  <script src="additional-questions.js?v=20261031-3"></script>
+  <script src="legacy-distractors.js?v=20261031"></script>
+  <script src="game.js?v=20261112-1"></script>
+</body>
+</html>
